@@ -17,6 +17,6 @@ public class ReputationManager : MonoBehaviour
 
     private void SetShopReputation(float rep)
     {
-
+        PlayerManager.instance.GetPlayerStat().shopReputaation += rep;
     }
 }
