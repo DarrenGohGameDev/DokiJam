@@ -6,8 +6,6 @@ public class SaveManager : MonoBehaviour
     public delegate void OnSaveGame();
     public OnSaveGame onSaveGame;
 
-    [SerializeField] private PlayerStat playerStat;
-
     private void Start()
     {
         
@@ -25,8 +23,8 @@ public class SaveManager : MonoBehaviour
 
     private void SaveGame()
     {
-        PlayerPrefs.SetFloat("playerShopRep", playerStat.shopReputaation);
-        PlayerPrefs.SetInt("playerTotalDayShopOpen", playerStat.totalDaysShopIsOpen);
-        PlayerPrefs.SetInt("playerTotalGold", playerStat.playerTotalGold);
+        PlayerPrefs.SetFloat("playerShopRep", PlayerManager.instance.GetPlayerStat().shopReputaation);
+        PlayerPrefs.SetInt("playerTotalDayShopOpen", PlayerManager.instance.GetPlayerStat().totalDaysShopIsOpen);
+        PlayerPrefs.SetInt("playerTotalGold", PlayerManager.instance.GetPlayerStat().playerTotalGold);
     }
 }
