@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BaseProjectileStat", menuName = "ScriptableObjects/BaseProjectileStat")]
+[CreateAssetMenu(fileName = "BasePlayerStat", menuName = "ScriptableObjects/BasePlayerStat")]
 public class PlayerStat : ScriptableObject
 {
 	//   - player reputation
