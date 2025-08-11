@@ -1,36 +1,49 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PauldronManager : MonoBehaviour
 {
-    public static Action onDropingIngrendient;
+    private PauldronManager instance;
 
-    [SerializeField] Button mixPauldrenButton;
+    public static Action<Ingredient> onAddingIngredientIntoPauldron;
 
-    void Start()
+    [SerializeField] private Button mixPauldrenButton;
+
+    private List<Ingredient> ingredientInPauldronList = new List<Ingredient>();
+
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnEnable()
     {
+        onAddingIngredientIntoPauldron += AddingIngredientIntoPauldron;
         mixPauldrenButton.onClick.AddListener(MixIngredient);
     }
 
     private void OnDisable()
     {
+        onAddingIngredientIntoPauldron -= AddingIngredientIntoPauldron;
         mixPauldrenButton.onClick.RemoveListener(MixIngredient);
     }
 
     private void MixIngredient()
     {
+        ingredientInPauldronList.Clear();
+    }
 
+    private void AddingIngredientIntoPauldron(Ingredient ingredient)
+    {
+        ingredientInPauldronList.Add(ingredient);
     }
 }
