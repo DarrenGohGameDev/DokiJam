@@ -5,4 +5,5 @@ public class BaseItemScriptableObject : ScriptableObject
 {
     public string itemName;
     public string itemDescription;
+    public Texture2D itemIcon;
 }

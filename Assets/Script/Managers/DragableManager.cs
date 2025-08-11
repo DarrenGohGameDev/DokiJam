@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,13 +8,24 @@ public class DragableManager : MonoBehaviour
 
     [SerializeField] private RawImage cursorIngredientIcon;
 
-    public delegate void OnBeginDragIngredient(Ingredient ingredient);
-    public OnBeginDragIngredient onBeginDragIngredient;
+    public static Action<Ingredient> onBeginDragIngredient;
 
-    public delegate void OnStopDragingIngredient();
-    public OnStopDragingIngredient onStopDragingIngredient;
+    public static Action onStopDragingIngredient;
 
     private bool ingredientIconFollowCursor = false;
+
+    void Awake()
+    {
+        ResetCursorIngredientIcon();
+    }
+
+    void Update()
+    {
+        if(ingredientIconFollowCursor)
+        {
+            cursorIngredientIcon.transform.position = Input.mousePosition;
+        }
+    }
 
     private void OnEnable()
     {
@@ -27,28 +39,23 @@ public class DragableManager : MonoBehaviour
         onStopDragingIngredient -= ClearDragingIngredient;
     }
 
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        if(ingredientIconFollowCursor)
-        {
-            cursorIngredientIcon.transform.position = Input.mousePosition;
-        }
-    }
-
     private void RegisterDragingIngredient(Ingredient ingredient)
     {
         dragingIngredient = ingredient;
-        // cursorIngredientIcon = ingredient.itemIcon;
+        cursorIngredientIcon.texture = ingredient.GetIngredientStat().itemIcon;
+        cursorIngredientIcon.gameObject.SetActive(true);
         ingredientIconFollowCursor = true;
     }
 
     private void ClearDragingIngredient()
     {
         dragingIngredient = null;
+        ResetCursorIngredientIcon();
+        ingredientIconFollowCursor = false;
+    }
+
+    private void ResetCursorIngredientIcon()
+    {
+        cursorIngredientIcon?.gameObject.SetActive(false);
     }
 }
