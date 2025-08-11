@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Ingredient : MonoBehaviour
+public class Ingredient : MonoBehaviour , IDragable
 {
     [SerializeField] private BaseIngredientStatScriptableObject ingredientStat;
 
@@ -12,5 +12,15 @@ public class Ingredient : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void OnBeginDrag()
+    {
+
+    }
+
+    public void OnDragEnd()
+    {
+
     }
 }
