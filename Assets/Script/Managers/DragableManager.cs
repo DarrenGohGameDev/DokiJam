@@ -56,6 +56,6 @@ public class DragableManager : MonoBehaviour
 
     private void ResetCursorIngredientIcon()
     {
-        cursorIngredientIcon?.gameObject.SetActive(false);
+        cursorIngredientIcon.gameObject.SetActive(false);
     }
 }

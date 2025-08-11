@@ -22,7 +22,6 @@ public class Ingredient : MonoBehaviour  , IBeginDragHandler , IDragHandler , IE
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("begin drag");
         DragableManager.onBeginDragIngredient?.Invoke(this);
     }
 
@@ -33,7 +32,6 @@ public class Ingredient : MonoBehaviour  , IBeginDragHandler , IDragHandler , IE
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("end drag");
         DragableManager.onStopDragingIngredient?.Invoke();
     }
 
