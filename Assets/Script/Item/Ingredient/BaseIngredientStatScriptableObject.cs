@@ -1,8 +1,14 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BaseItemStat", menuName = "ScriptableObjects/Item/BaseIngredientStat")]
-public class BaseIngredientStatScriptableObject : BaseItemScriptableObject
+[CreateAssetMenu(fileName = "BaseIngredientStat", menuName = "ScriptableObjects/Ingredient/BaseIngredientStat")]
+public class BaseIngredientStatScriptableObject : BaseStackableItemScriptableObject
 {
-    public int totalStack;
-    public int maxStack;
+    public Ingredient ingredientType;
+    public enum Ingredient
+    {
+        ingredient0 = 0,
+        ingredient1 = 1,
+        ingredient2 = 2,
+        ingredient3 = 3,
+    }
 }
