@@ -33,7 +33,12 @@ public class Ingredient : MonoBehaviour  , IBeginDragHandler , IDragHandler , IE
     public void OnEndDrag(PointerEventData eventData)
     {
         DragableManager.onStopDragingIngredient?.Invoke();
-    }
 
-    
+        Ray ray = Camera.main.ScreenPointToRay(eventData.position);
+
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Debug.Log("Dropped on " + hit.collider.name);
+        }
+    }
 }
