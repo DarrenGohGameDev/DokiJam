@@ -39,11 +39,22 @@ public class PauldronManager : MonoBehaviour
 
     private void MixIngredient()
     {
-        ingredientInPauldronList.Clear();
+        ReactionManager.ingredientReaction?.Invoke(GetTotalIngredientId());
     }
 
     private void AddingIngredientIntoPauldron(Ingredient ingredient)
     {
         ingredientInPauldronList.Add(ingredient);
+    }
+
+    private int GetTotalIngredientId()
+    {
+        int totalIngredientId = 0;
+        for (int i = 0; i < ingredientInPauldronList.Count; i++)
+        {
+            totalIngredientId += (int)ingredientInPauldronList[i].GetIngredientStat().ingredientType;
+        }
+        ingredientInPauldronList.Clear();
+        return totalIngredientId;
     }
 }
