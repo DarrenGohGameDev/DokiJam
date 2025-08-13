@@ -39,7 +39,7 @@ public class PauldronManager : MonoBehaviour
 
     private void MixIngredient()
     {
-        ReactionManager.ingredientReaction?.Invoke(GetTotalIngredientId());
+        PotionManager.onPotionCrafted?.Invoke(GetTotalIngredientId());
     }
 
     private void AddingIngredientIntoPauldron(Ingredient ingredient)
