@@ -27,13 +27,13 @@ public class PotionManager : ItemManager<Potion>
     private void OnEnable()
     {
         onPotionUsed += RemovePotion;
-        onPotionCrafted += AddPotion;
+        onPotionCrafted += CraftingPotion;
     }
 
     private void OnDisable()
     {
         onPotionUsed -= RemovePotion;
-        onPotionCrafted -= AddPotion;
+        onPotionCrafted -= CraftingPotion;
     }
 
     public void SpawnItemIcon()
@@ -44,16 +44,29 @@ public class PotionManager : ItemManager<Potion>
         }
     }
 
-    private void AddPotion(int id)
+    private void CraftingPotion(int id)
     {
-        Potion potion = managingItemList.First(x => id == (int)x.GetPotionStat().PotionType);
+        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().PotionType);
 
-        potion.GetPotionStat().totalStack++;
+        if (potion == null)
+        {
+            // pop up potion unsuccefully crafted
+            Debug.Log("no potion match");
+            return;
+        }
+
+        int potionTotalStack = potion.GetPotionStat().totalStack;
+        int potionMaxStack = potion.GetPotionStat().maxStack;
+
+        if (potionTotalStack < potionMaxStack)
+        {
+            potion.GetPotionStat().totalStack++;
+        }
     }
 
     private void RemovePotion(int id)
     {
-        Potion potion = managingItemList.First(x => id == (int)x.GetPotionStat().PotionType);
+        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().PotionType);
 
         potion.GetPotionStat().totalStack--;
     }

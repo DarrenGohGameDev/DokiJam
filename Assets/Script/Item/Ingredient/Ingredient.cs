@@ -38,7 +38,12 @@ public class Ingredient : MonoBehaviour  , IBeginDragHandler , IDragHandler , IE
 
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            Debug.Log("Dropped on " + hit.collider.name);
+            if(hit.collider.gameObject.CompareTag("Pauldron"))
+            {
+                Debug.Log("Dropped on " + hit.collider.name);
+                PauldronManager.onAddingIngredientIntoPauldron?.Invoke(this);
+            }
+            
         }
     }
 }

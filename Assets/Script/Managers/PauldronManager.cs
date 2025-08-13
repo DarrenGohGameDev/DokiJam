@@ -39,6 +39,8 @@ public class PauldronManager : MonoBehaviour
 
     private void MixIngredient()
     {
+        if (ingredientInPauldronList.Count < 1)
+            return;
         PotionManager.onPotionCrafted?.Invoke(GetTotalIngredientId());
     }
 

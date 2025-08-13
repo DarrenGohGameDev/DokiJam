@@ -25,14 +25,14 @@ public class IngredientManager : ItemManager<Ingredient>
 
     private void OnEnable()
     {
-        onIngredientUsed += RemovePotion;
-        onIngredientAdded += AddPotion;
+        onIngredientUsed += RemoveIngredient;
+        onIngredientAdded += AddIngredient;
     }
 
     private void OnDisable()
     {
-        onIngredientUsed -= RemovePotion;
-        onIngredientAdded -= AddPotion;
+        onIngredientUsed -= RemoveIngredient;
+        onIngredientAdded -= AddIngredient;
     }
 
     public void SpawnItemIcon()
@@ -43,17 +43,17 @@ public class IngredientManager : ItemManager<Ingredient>
         }
     }
 
-    private void AddPotion(int id)
+    private void AddIngredient(int id)
     {
-        Ingredient potion = managingItemList.First(x => id == (int)x.GetIngredientStat().ingredientType);
+        Ingredient ingredient = managingItemList.First(x => id == (int)x.GetIngredientStat().ingredientType);
 
-        potion.GetIngredientStat().totalStack++;
+        ingredient.GetIngredientStat().totalStack++;
     }
 
-    private void RemovePotion(int id)
+    private void RemoveIngredient(int id)
     {
-        Ingredient potion = managingItemList.First(x => id == (int)x.GetIngredientStat().ingredientType);
+        Ingredient ingredient = managingItemList.First(x => id == (int)x.GetIngredientStat().ingredientType);
 
-        potion.GetIngredientStat().totalStack--;
+        ingredient.GetIngredientStat().totalStack--;
     }
 }
