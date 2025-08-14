@@ -17,15 +17,7 @@ public class PopupUiManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            togglePopup?.Invoke(true,"test text");
-        }
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            togglePopup?.Invoke(false, "");
-        }
     }
 
     private void OnEnable()
