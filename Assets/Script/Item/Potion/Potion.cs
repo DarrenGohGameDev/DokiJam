@@ -1,8 +1,8 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Potion : BaseDragableItem
+public class Potion : MonoBehaviour
 {
+    [SerializeField] private BasePotionStatScriptableObject potionStat;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,26 +17,6 @@ public class Potion : BaseDragableItem
 
     public BasePotionStatScriptableObject GetPotionStat()
     {
-        return (BasePotionStatScriptableObject)GetDragableItemStat();
-    }
-
-    protected override void OnBeginDragItem(PointerEventData eventData)
-    {
-        DragableManager.onBeginDragIngItem?.Invoke(this);
-    }
-
-    protected override void OnEndDragItem(PointerEventData eventData)
-    {
-        DragableManager.onStopDragingItem?.Invoke();
-
-        Ray ray = Camera.main.ScreenPointToRay(eventData.position);
-
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            if (hit.collider.gameObject.CompareTag("Customer"))
-            {
-
-            }
-        }
+        return potionStat;
     }
 }

@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Ingredient : BaseDragableItem
+public class Ingredient : MonoBehaviour  , IBeginDragHandler , IDragHandler , IEndDragHandler 
 {
+    [SerializeField] private BaseIngredientStatScriptableObject ingredientStat;
 
     void Start()
     {
@@ -16,17 +17,22 @@ public class Ingredient : BaseDragableItem
 
     public BaseIngredientStatScriptableObject GetIngredientStat()
     {
-        return (BaseIngredientStatScriptableObject)GetDragableItemStat();
+        return ingredientStat;
     }
 
-    protected override void OnBeginDragItem(PointerEventData eventData)
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        DragableManager.onBeginDragIngItem?.Invoke(this);
+        DragableManager.onBeginDragIngredient?.Invoke(this);
     }
 
-    protected override void OnEndDragItem(PointerEventData eventData)
+    public void OnDrag(PointerEventData eventData)
     {
-        DragableManager.onStopDragingItem?.Invoke();
+
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        DragableManager.onStopDragingIngredient?.Invoke();
 
         Ray ray = Camera.main.ScreenPointToRay(eventData.position);
 

@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class DragableManager : MonoBehaviour
 {
-    private BaseDragableItem dragingItem;
+    private Ingredient dragingIngredient;
 
     [SerializeField] private RawImage cursorIngredientIcon;
 
-    public static Action<BaseDragableItem> onBeginDragIngItem;
+    public static Action<Ingredient> onBeginDragIngredient;
 
-    public static Action onStopDragingItem;
+    public static Action onStopDragingIngredient;
 
     private bool ingredientIconFollowCursor = false;
 
@@ -29,27 +29,27 @@ public class DragableManager : MonoBehaviour
 
     private void OnEnable()
     {
-        onBeginDragIngItem += RegisterDragingIngredient;
-        onStopDragingItem += ClearDragingIngredient;
+        onBeginDragIngredient += RegisterDragingIngredient;
+        onStopDragingIngredient += ClearDragingIngredient;
     }
 
     private void OnDisable()
     {
-        onBeginDragIngItem -= RegisterDragingIngredient;
-        onStopDragingItem -= ClearDragingIngredient;
+        onBeginDragIngredient -= RegisterDragingIngredient;
+        onStopDragingIngredient -= ClearDragingIngredient;
     }
 
-    private void RegisterDragingIngredient(BaseDragableItem item)
+    private void RegisterDragingIngredient(Ingredient ingredient)
     {
-        dragingItem = item;
-        cursorIngredientIcon.texture = item.GetDragableItemStat().itemIcon;
+        dragingIngredient = ingredient;
+        cursorIngredientIcon.texture = ingredient.GetIngredientStat().itemIcon;
         cursorIngredientIcon.gameObject.SetActive(true);
         ingredientIconFollowCursor = true;
     }
 
     private void ClearDragingIngredient()
     {
-        dragingItem = null;
+        dragingIngredient = null;
         ResetCursorIngredientIcon();
         ingredientIconFollowCursor = false;
     }
