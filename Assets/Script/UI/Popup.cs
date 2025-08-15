@@ -26,8 +26,7 @@ public class Popup : MonoBehaviour
     {
         if(popupCanvasGroup.alpha != (int)currentPopupState)
         {
-            popupCanvasGroup.alpha = Mathf.MoveTowards(popupCanvasGroup.alpha, (int)currentPopupState,Time.deltaTime * fadeAnimationSpeed);
-            popupText.alpha = Mathf.MoveTowards(popupText.alpha, (int)currentPopupState, Time.deltaTime * fadeAnimationSpeed);
+            PopupFadeAnimation();
         }
     }
 
@@ -49,5 +48,11 @@ public class Popup : MonoBehaviour
         popupCanvasGroup.alpha = 0;
         currentPopupState = PopupState.Hide;
         ChangePopupText("");
+    }
+
+    private void PopupFadeAnimation()
+    {
+        popupCanvasGroup.alpha = Mathf.MoveTowards(popupCanvasGroup.alpha, (int)currentPopupState, Time.deltaTime * fadeAnimationSpeed);
+        popupText.alpha = Mathf.MoveTowards(popupText.alpha, (int)currentPopupState, Time.deltaTime * fadeAnimationSpeed);
     }
 }
