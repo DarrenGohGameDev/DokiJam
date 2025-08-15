@@ -1,10 +1,14 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class BaseCustomer : MonoBehaviour
 {
-    private int orderPotionId;
+    private int correctOrderPotionId;
 
     private CustomerState currentCustomerState = CustomerState.idle;
+
+    private List<Transform> movePosition = new List<Transform>();
 
     private enum CustomerState
     {
@@ -29,9 +33,24 @@ public class BaseCustomer : MonoBehaviour
 
     public void ReceivePotion(int potionId)
     {
-        if (orderPotionId != potionId)
+        if (correctOrderPotionId != potionId)
             return;
 
         currentCustomerState = CustomerState.leavingShop;
+    }
+
+    public void SetCustomerMovePosition(List<Transform> newMovePosition)
+    {
+        movePosition = newMovePosition;
+    }
+
+    public void SetCorrectOrderPotionId(int correctPotionId)
+    {
+        correctOrderPotionId = correctPotionId;
+    }
+
+    private void LeaveMap()
+    {
+        CustomerSpawner.customerAlive?.Invoke(-1);
     }
 }

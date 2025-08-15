@@ -46,7 +46,7 @@ public class PotionManager : ItemManager<Potion>
 
     private void CraftingPotion(int id)
     {
-        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().PotionType);
+        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().potionType);
 
         if (potion == null)
         {
@@ -66,8 +66,20 @@ public class PotionManager : ItemManager<Potion>
 
     private void RemovePotion(int id)
     {
-        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().PotionType);
+        Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().potionType);
 
         potion.GetPotionStat().totalStack--;
+    }
+
+    public static List<int> GetAllPotionIdList()
+    {
+        List<int> allPotionIdList = new List<int>();
+
+        foreach(int potionId in Enum.GetValues(typeof(BasePotionStatScriptableObject.PotionType)))
+        {
+            allPotionIdList.Add(potionId);
+        }
+
+        return allPotionIdList;
     }
 }
