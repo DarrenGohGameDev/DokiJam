@@ -51,7 +51,7 @@ public class CustomerSpawner : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        Instantiate(GetNewCustomer());
+        Instantiate(GetNewCustomer(), customerSpawnPoint[0]);
 
         customerAlive?.Invoke(1);
 
