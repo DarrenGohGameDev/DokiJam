@@ -35,7 +35,7 @@ public class Potion : BaseDragableItem
         {
             if (hit.collider.gameObject.CompareTag("Customer"))
             {
-
+                hit.collider.gameObject.GetComponent<BaseCustomer>().ReceivePotion((int)GetPotionStat().potionType);
             }
         }
     }
