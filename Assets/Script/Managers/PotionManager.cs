@@ -94,6 +94,7 @@ public class PotionManager : ItemManager<Potion>
         Potion potion = managingItemList.FirstOrDefault(x => id == (int)x.GetPotionStat().potionType);
 
         potion.GetPotionStat().totalStack--;
+        potion.SetPotionStackText(potion.GetPotionStat().totalStack);
     }
 
     public List<int> GetAllPotionIdList()
