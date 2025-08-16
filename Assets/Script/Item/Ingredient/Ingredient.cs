@@ -37,8 +37,8 @@ public class Ingredient : BaseDragableItem
         {
             if(hit.collider.gameObject.CompareTag("Pauldron"))
             {
-                Debug.Log("Dropped on " + hit.collider.name);
                 PauldronManager.onAddingIngredientIntoPauldron?.Invoke(this);
+                SoundManager.instance.PlayAddingIngredientSfx();
             }
             
         }

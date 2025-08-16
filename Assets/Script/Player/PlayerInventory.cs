@@ -21,12 +21,14 @@ public class PlayerInventory : MonoBehaviour
     {
         if(currentInventoryState == inventoryState.Close)
         {
+            SoundManager.instance.PlayInventoryOpenSfx();
             currentInventoryState = inventoryState.Open;
             inventoryObj.gameObject.SetActive(true);
             PlayerLook.enablePlayerMouseLook?.Invoke(false);
         }
         else
         {
+            SoundManager.instance.PlayInventoryCloseSfx();
             currentInventoryState = inventoryState.Close;
             inventoryObj.gameObject.SetActive(false);
             PlayerLook.enablePlayerMouseLook?.Invoke(true);

@@ -33,6 +33,14 @@ public class Popup : MonoBehaviour
     public void TogglePopup(bool toggle, string text)
     {
         currentPopupState = toggle ? PopupState.Show : PopupState.Hide;
+
+        PlayerLook.enablePlayerMouseLook?.Invoke(!toggle);
+
+        popupCanvasGroup.blocksRaycasts = toggle;
+        popupCanvasGroup.interactable = toggle;
+
+
+        SoundManager.instance.PlayPopupSfx();
         if (text == "")
             return;
         ChangePopupText(text);

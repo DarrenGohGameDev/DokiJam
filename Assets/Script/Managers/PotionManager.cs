@@ -19,7 +19,7 @@ public class PotionManager : ItemManager<Potion>
         if (instance != this)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -74,7 +74,7 @@ public class PotionManager : ItemManager<Potion>
         if (potion == null)
         {
             // pop up potion unsuccefully crafted
-            Debug.Log("no potion match");
+            SoundManager.instance.PlayWrongPotionSfx();
             return;
         }
 
@@ -84,7 +84,8 @@ public class PotionManager : ItemManager<Potion>
         if (potionTotalStack < potionMaxStack)
         {
             potion.GetPotionStat().totalStack++;
-            potion.SetPotionStackText(potionTotalStack);
+            SoundManager.instance.PlayCorrectPotionSfx();
+            potion.SetPotionStackText(potion.GetPotionStat().totalStack);
         }
     }
 

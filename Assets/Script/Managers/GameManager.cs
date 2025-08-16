@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         if (instance != this)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
         }
         else
         {

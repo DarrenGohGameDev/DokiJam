@@ -9,7 +9,7 @@ public class Potion : BaseDragableItem
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        SetPotionStackText(0);
+        SetPotionStackText(GetPotionStat().totalStack);
         this.GetComponent<RawImage>().texture = GetDragableItemStat().itemIcon;
     }
 
