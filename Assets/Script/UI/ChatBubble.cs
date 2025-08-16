@@ -34,9 +34,7 @@ public class ChatBubble : MonoBehaviour
 
     private void ToggleChatBubbleAnimation()
     {
-        bool showChatBubble = currentChatBubbleState == ChatBubbleState.Show;
-
-        chatBubbleCanvasGroup.gameObject.transform.localScale = showChatBubble ? 
+        chatBubbleCanvasGroup.gameObject.transform.localScale = currentChatBubbleState == ChatBubbleState.Show ? 
             Vector3.MoveTowards(chatBubbleCanvasGroup.gameObject.transform.localScale, chatBubbleMaxSize, Time.deltaTime * scaleAnimationSpeed):
             Vector3.MoveTowards(chatBubbleCanvasGroup.gameObject.transform.localScale, Vector3.zero, Time.deltaTime * scaleAnimationSpeed);
     }

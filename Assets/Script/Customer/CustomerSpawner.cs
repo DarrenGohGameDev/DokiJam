@@ -6,9 +6,9 @@ using UnityEngine;
 
 public class CustomerSpawner : MonoBehaviour
 {
-    [SerializeField] private List<Mesh> customerModelList = new List<Mesh>();
+    [SerializeField] private List<GameObject> customerModelTypeList = new List<GameObject>();
 
-    [SerializeField] private GameObject customer;
+    //[SerializeField] private GameObject customer;
 
     [SerializeField] private List<Transform> customerSpawnPoint = new List<Transform>(); // start position , counter position , Exit Map position
 
@@ -33,7 +33,7 @@ public class CustomerSpawner : MonoBehaviour
 
     void Update()
     {
-        spawnCustomerTimer -= Time.deltaTime;
+        currentSpawnCustomerTimer -= Time.deltaTime;
         if(currentSpawnCustomerTimer <= 0 && totalCustomerAlive < maxSpawnCustomer)
         {
             SpawnCustomer();
@@ -51,8 +51,8 @@ public class CustomerSpawner : MonoBehaviour
 
     private void SpawnCustomer()
     {
-        Instantiate(GetNewCustomer(), customerSpawnPoint[0]);
-
+        BaseCustomer spawnCustomer = Instantiate(GetNewCustomer(), customerSpawnPoint[0]);
+        spawnCustomer.SetCustomerMovePosition(GetCustomerMovePosition());
         customerAlive?.Invoke(1);
 
         currentSpawnCustomerTimer = spawnCustomerTimer;
@@ -61,9 +61,8 @@ public class CustomerSpawner : MonoBehaviour
     private BaseCustomer GetNewCustomer()
     {
         // set new customer stat
-        BaseCustomer newCustomer = customer.GetComponent<BaseCustomer>();
-        newCustomer.gameObject.GetComponent<MeshFilter>().mesh = customerModelList[UnityEngine.Random.Range(0, customerModelList.Count)];
-        newCustomer.SetCustomerMovePosition(GetCustomerMovePosition());
+        BaseCustomer newCustomer = customerModelTypeList[UnityEngine.Random.Range(0, customerModelTypeList.Count)].GetComponent<BaseCustomer>();
+        //newCustomer.SetCustomerMovePosition(GetCustomerMovePosition());
         newCustomer.SetCorrectOrderPotionId(potionId[UnityEngine.Random.Range(0, potionId.Count)]);
 
         return newCustomer;

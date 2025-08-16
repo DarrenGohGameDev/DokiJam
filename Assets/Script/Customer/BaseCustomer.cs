@@ -1,14 +1,21 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BaseCustomer : MonoBehaviour
 {
     private int correctOrderPotionId;
 
-    private CustomerState currentCustomerState = CustomerState.idle;
+    [SerializeField] private CustomerState currentCustomerState = CustomerState.idle;
 
     private List<Transform> movePosition = new List<Transform>();
+
+    [SerializeField] private NavMeshAgent agent;
+
+    [SerializeField] private ChatBubble chatBubble;
+
+    [SerializeField] private float agentNearCounterDistance = 0.03f;
 
     private enum CustomerState
     {
@@ -28,11 +35,24 @@ public class BaseCustomer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(currentCustomerState == CustomerState.idle)
+        {
+            currentCustomerState = CustomerState.walkingToShop;
+            agent.SetDestination(movePosition[1].position);
+        }
+
+        if (agent.hasPath && agent.remainingDistance <= agentNearCounterDistance && currentCustomerState == CustomerState.walkingToShop)
+        {
+            currentCustomerState = CustomerState.orderingPotion;
+            chatBubble.ToggleChatBubble(true);
+        }
     }
 
     public void ReceivePotion(int potionId)
     {
+        if (currentCustomerState != CustomerState.orderingPotion)
+            return;
+
         if (correctOrderPotionId != potionId)
             return;
 
@@ -52,5 +72,6 @@ public class BaseCustomer : MonoBehaviour
     private void LeaveMap()
     {
         CustomerSpawner.customerAlive?.Invoke(-1);
+        Destroy(this.gameObject);
     }
 }
