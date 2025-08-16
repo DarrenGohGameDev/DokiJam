@@ -29,27 +29,34 @@ public class BaseCustomer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        currentCustomerState = CustomerState.walkingToShop;
+        agent.SetDestination(movePosition[1].position);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(currentCustomerState == CustomerState.idle)
+        if (agent.hasPath && agent.remainingDistance <= agentNearCounterDistance)
         {
-            currentCustomerState = CustomerState.walkingToShop;
-            agent.SetDestination(movePosition[1].position);
-        }
+            switch (currentCustomerState)
+            {
+                case CustomerState.walkingToShop:
+                    currentCustomerState = CustomerState.orderingPotion;
+                    chatBubble.ToggleChatBubble(true, PotionManager.instance.GetPotionIconFromPotionId(correctOrderPotionId));
+                    break;
 
-        if (agent.hasPath && agent.remainingDistance <= agentNearCounterDistance && currentCustomerState == CustomerState.walkingToShop)
-        {
-            currentCustomerState = CustomerState.orderingPotion;
-            chatBubble.ToggleChatBubble(true);
+                case CustomerState.leavingShop:
+                    LeaveMap();
+                    break;
+            }
         }
     }
 
     public void ReceivePotion(int potionId)
     {
+        if (GameManager.instance.gameState != GameManager.GameState.StartGame)
+            return;
+
         if (currentCustomerState != CustomerState.orderingPotion)
             return;
 
@@ -57,6 +64,9 @@ public class BaseCustomer : MonoBehaviour
             return;
 
         currentCustomerState = CustomerState.leavingShop;
+        chatBubble.ToggleChatBubble(false, null);
+        agent.SetDestination(movePosition[2].position);
+        GameManager.instance.OnDragoonOrderComplete();
     }
 
     public void SetCustomerMovePosition(List<Transform> newMovePosition)

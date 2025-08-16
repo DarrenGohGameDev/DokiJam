@@ -6,22 +6,37 @@ using UnityEngine.UI;
 
 public class PotionManager : ItemManager<Potion>
 {
-    [SerializeField] protected List<RawImage> itemIconlist = new List<RawImage>();
+    public static PotionManager instance;
 
-    public static Action<int> onPotionUsed;
+    [SerializeField] private PlayerInventory potionInventory;
 
-    public static Action<int> onPotionCrafted;
+    public Action<int> onPotionUsed;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public Action<int> onPotionCrafted;
+
+    private void Awake()
     {
-        
+        if (instance != this)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
-
+    private void Start()
+    {
+        SetAllPotionStackText();
+    }
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            potionInventory.ToggleInventory();
+        }
     }
 
     private void OnEnable()
@@ -36,11 +51,19 @@ public class PotionManager : ItemManager<Potion>
         onPotionCrafted -= CraftingPotion;
     }
 
-    public void SpawnItemIcon()
+    private void SetAllPotionStackText()
     {
         for (int i = 0; i < managingItemList.Count; i++)
         {
-            itemIconlist[i].texture = managingItemList[i].GetPotionStat().itemIcon;
+            managingItemList[i].SetPotionStackText(managingItemList[i].GetPotionStat().totalStack);
+        }
+    }
+
+    public void ResetAllPotion()
+    {
+        for (int i = 0; i < managingItemList.Count; i++)
+        {
+            managingItemList[i].GetPotionStat().totalStack = 0;
         }
     }
 
@@ -57,10 +80,11 @@ public class PotionManager : ItemManager<Potion>
 
         int potionTotalStack = potion.GetPotionStat().totalStack;
         int potionMaxStack = potion.GetPotionStat().maxStack;
-
+        
         if (potionTotalStack < potionMaxStack)
         {
             potion.GetPotionStat().totalStack++;
+            potion.SetPotionStackText(potionTotalStack);
         }
     }
 
@@ -71,7 +95,7 @@ public class PotionManager : ItemManager<Potion>
         potion.GetPotionStat().totalStack--;
     }
 
-    public static List<int> GetAllPotionIdList()
+    public List<int> GetAllPotionIdList()
     {
         List<int> allPotionIdList = new List<int>();
 
@@ -81,5 +105,24 @@ public class PotionManager : ItemManager<Potion>
         }
 
         return allPotionIdList;
+    }
+
+    private Potion GetPotionFromPotionId(int id)
+    {
+        Potion potion = null;
+        for (int i = 0; i < managingItemList.Count; i++)
+        {
+            if((int)managingItemList[i].GetPotionStat().potionType == id)
+            {
+                potion = managingItemList[i];
+            }
+        }
+
+        return potion;
+    }
+
+    public Texture2D GetPotionIconFromPotionId(int id)
+    {
+        return GetPotionFromPotionId(id).GetPotionStat().itemIcon;
     }
 }

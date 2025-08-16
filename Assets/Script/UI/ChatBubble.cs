@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ChatBubble : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class ChatBubble : MonoBehaviour
     [SerializeField] private float scaleAnimationSpeed = 10f;
 
     private ChatBubbleState currentChatBubbleState = ChatBubbleState.Hide;
+
+    [SerializeField] private RawImage orderIconImage;
 
     private enum ChatBubbleState
     {
@@ -27,9 +30,10 @@ public class ChatBubble : MonoBehaviour
         ToggleChatBubbleAnimation();
     }
 
-    public void ToggleChatBubble(bool toggle)
+    public void ToggleChatBubble(bool toggle, Texture2D orderIcon)
     {
         currentChatBubbleState = toggle ? ChatBubbleState.Show : ChatBubbleState.Hide;
+        orderIconImage.texture = orderIcon;
     }
 
     private void ToggleChatBubbleAnimation()

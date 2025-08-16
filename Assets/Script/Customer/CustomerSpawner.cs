@@ -27,12 +27,15 @@ public class CustomerSpawner : MonoBehaviour
     
     void Start()
     {
-        potionId = PotionManager.GetAllPotionIdList();
+        potionId = PotionManager.instance.GetAllPotionIdList();
         currentSpawnCustomerTimer = spawnCustomerTimer;
     }
 
     void Update()
     {
+        if (GameManager.instance.gameState != GameManager.GameState.StartGame)
+            return;
+
         currentSpawnCustomerTimer -= Time.deltaTime;
         if(currentSpawnCustomerTimer <= 0 && totalCustomerAlive < maxSpawnCustomer)
         {
@@ -53,6 +56,7 @@ public class CustomerSpawner : MonoBehaviour
     {
         BaseCustomer spawnCustomer = Instantiate(GetNewCustomer(), customerSpawnPoint[0]);
         spawnCustomer.SetCustomerMovePosition(GetCustomerMovePosition());
+        spawnCustomer.SetCorrectOrderPotionId(potionId[UnityEngine.Random.Range(0, potionId.Count)]);
         customerAlive?.Invoke(1);
 
         currentSpawnCustomerTimer = spawnCustomerTimer;
@@ -60,11 +64,7 @@ public class CustomerSpawner : MonoBehaviour
 
     private BaseCustomer GetNewCustomer()
     {
-        // set new customer stat
         BaseCustomer newCustomer = customerModelTypeList[UnityEngine.Random.Range(0, customerModelTypeList.Count)].GetComponent<BaseCustomer>();
-        //newCustomer.SetCustomerMovePosition(GetCustomerMovePosition());
-        newCustomer.SetCorrectOrderPotionId(potionId[UnityEngine.Random.Range(0, potionId.Count)]);
-
         return newCustomer;
     }
 

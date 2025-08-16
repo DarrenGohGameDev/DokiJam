@@ -41,7 +41,7 @@ public class PauldronManager : MonoBehaviour
     {
         if (ingredientInPauldronList.Count < 1)
             return;
-        PotionManager.onPotionCrafted?.Invoke(GetTotalIngredientId());
+        PotionManager.instance.onPotionCrafted?.Invoke(GetTotalIngredientId());
     }
 
     private void AddingIngredientIntoPauldron(Ingredient ingredient)

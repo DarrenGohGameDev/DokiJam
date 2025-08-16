@@ -5,11 +5,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class IngredientManager : ItemManager<Ingredient>
 {
-    [SerializeField] protected List<RawImage> itemIconlist = new List<RawImage>();
 
     public static Action<int> onIngredientUsed;
 
     public static Action<int> onIngredientAdded;
+
+    [SerializeField] private PlayerInventory ingredientInventory;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,7 +21,10 @@ public class IngredientManager : ItemManager<Ingredient>
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ingredientInventory.ToggleInventory();
+        }
     }
 
     private void OnEnable()
@@ -33,14 +37,6 @@ public class IngredientManager : ItemManager<Ingredient>
     {
         onIngredientUsed -= RemoveIngredient;
         onIngredientAdded -= AddIngredient;
-    }
-
-    public void SpawnItemIcon()
-    {
-        for (int i = 0; i < managingItemList.Count; i++)
-        {
-            itemIconlist[i].texture = managingItemList[i].GetIngredientStat().itemIcon;
-        }
     }
 
     private void AddIngredient(int id)
