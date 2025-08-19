@@ -59,20 +59,25 @@ public class SoundManager : MonoBehaviour
 
     private void SetVolumeOnGameStart()
     {
-        sfxSlider.value =  PlayerPrefs.GetFloat("sfxVolume") == 0 ? sfxAudioSource.volume : PlayerPrefs.GetFloat("sfxVolume");
-        bgmSlider.value =  PlayerPrefs.GetFloat("bgmVolume") == 0 ? bgmAudioSource.volume : PlayerPrefs.GetFloat("bgmVolume");
+        sfxAudioSource.volume = PlayerPrefs.HasKey("sfxVolume") ? PlayerPrefs.GetFloat("sfxVolume") : sfxAudioSource.volume;
+        bgmAudioSource.volume = PlayerPrefs.HasKey("bgmVolume") ? PlayerPrefs.GetFloat("bgmVolume") : bgmAudioSource.volume;
+
+        sfxSlider.value = sfxAudioSource.volume;
+        bgmSlider.value = bgmAudioSource.volume;
     }
 
     public void SetSfxAudioVolume(float value)
     {
         sfxAudioSource.volume = value;
         PlayerPrefs.SetFloat("sfxVolume", value);
+        PlayerPrefs.Save();
     }
 
     public void SetBgmAudioVolume(float value)
     {
         bgmAudioSource.volume = value;
         PlayerPrefs.SetFloat("bgmVolume", value);
+        PlayerPrefs.Save();
     }
 
     public void PlayInventoryOpenSfx()
