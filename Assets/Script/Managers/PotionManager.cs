@@ -28,15 +28,14 @@ public class PotionManager : ItemManager<Potion>
     }
     private void Start()
     {
+        ResetAllPotion();
         SetAllPotionStackText();
+        
     }
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            potionInventory.ToggleInventory();
-        }
+        
     }
 
     private void OnEnable()
@@ -49,6 +48,11 @@ public class PotionManager : ItemManager<Potion>
     {
         onPotionUsed -= RemovePotion;
         onPotionCrafted -= CraftingPotion;
+    }
+
+    public PlayerInventory GetPotionInventory()
+    {
+        return potionInventory;
     }
 
     private void SetAllPotionStackText()

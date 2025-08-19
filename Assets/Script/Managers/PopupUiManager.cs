@@ -39,9 +39,5 @@ public class PopupUiManager : MonoBehaviour
     private void ClosePopup()
     {
         popupObj.TogglePopup(false, "");
-        if(GameManager.instance.gameState == GameManager.GameState.EndGame)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
     }
 }

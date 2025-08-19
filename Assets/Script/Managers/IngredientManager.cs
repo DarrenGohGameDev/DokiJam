@@ -21,10 +21,6 @@ public class IngredientManager : ItemManager<Ingredient>
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            ingredientInventory.ToggleInventory();
-        }
     }
 
     private void OnEnable()
@@ -37,6 +33,11 @@ public class IngredientManager : ItemManager<Ingredient>
     {
         onIngredientUsed -= RemoveIngredient;
         onIngredientAdded -= AddIngredient;
+    }
+
+    public PlayerInventory GetIngredientInventory()
+    {
+        return ingredientInventory;
     }
 
     private void AddIngredient(int id)

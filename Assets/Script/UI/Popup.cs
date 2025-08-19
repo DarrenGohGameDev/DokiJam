@@ -39,6 +39,8 @@ public class Popup : MonoBehaviour
         popupCanvasGroup.blocksRaycasts = toggle;
         popupCanvasGroup.interactable = toggle;
 
+        PlayerLook.enablePlayerMouseLook?.Invoke(!toggle);
+
 
         SoundManager.instance.PlayPopupSfx();
         if (text == "")

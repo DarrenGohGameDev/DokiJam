@@ -11,9 +11,12 @@ public class PlayerLook : MonoBehaviour
     private bool mouseLooking = true;
 
     public static Action<bool> enablePlayerMouseLook;
+
+    private bool playerInventoryIsOpen = false;
     void Start()
     {
         Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -28,18 +31,39 @@ public class PlayerLook : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TogglePlayerCursorVisible();
+        }
+    }
+
     private void OnEnable()
     {
         enablePlayerMouseLook += SetPlayerMouseLook;
+        PlayerManager.instance.playerInventoryIsOpen += PlayerIsLookingAtInventory;
     }
 
     private void OnDisable()
     {
         enablePlayerMouseLook -= SetPlayerMouseLook;
+        PlayerManager.instance.playerInventoryIsOpen -= PlayerIsLookingAtInventory;
     }
 
-    private void SetPlayerMouseLook(bool set)
+    public void SetPlayerMouseLook(bool set)
     {
         mouseLooking = set;
+        Cursor.visible = !set;
+    }
+
+    private void PlayerIsLookingAtInventory(bool value)
+    {
+        playerInventoryIsOpen = value;
+    }
+
+    private void TogglePlayerCursorVisible()
+    {
+        Cursor.visible = Cursor.visible ? false:true;
     }
 }

@@ -6,7 +6,7 @@ public class PlayerInventory : MonoBehaviour
 
     private inventoryState currentInventoryState = inventoryState.Close;
 
-    private enum inventoryState
+    public enum inventoryState
     {
         Open,
         Close,
@@ -17,6 +17,11 @@ public class PlayerInventory : MonoBehaviour
         inventoryObj.gameObject.SetActive(false);
     }
 
+    public inventoryState GetCurrentInventoryState()
+    {
+        return currentInventoryState;
+    }
+
     public void ToggleInventory()
     {
         if(currentInventoryState == inventoryState.Close)
@@ -24,14 +29,12 @@ public class PlayerInventory : MonoBehaviour
             SoundManager.instance.PlayInventoryOpenSfx();
             currentInventoryState = inventoryState.Open;
             inventoryObj.gameObject.SetActive(true);
-            PlayerLook.enablePlayerMouseLook?.Invoke(false);
         }
         else
         {
             SoundManager.instance.PlayInventoryCloseSfx();
             currentInventoryState = inventoryState.Close;
             inventoryObj.gameObject.SetActive(false);
-            PlayerLook.enablePlayerMouseLook?.Invoke(true);
         }
     }
 }

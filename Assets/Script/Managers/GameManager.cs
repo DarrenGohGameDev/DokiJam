@@ -1,5 +1,7 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI timerText;
 
+    [SerializeField] private Button popupButton;
+
     private int totalDragoonOrderComplete = 0;
     public enum GameState
     {
@@ -27,6 +31,8 @@ public class GameManager : MonoBehaviour
         PauseGame,
         EndGame,
     }
+
+    
 
     private void Awake()
     {
@@ -46,8 +52,24 @@ public class GameManager : MonoBehaviour
         defaultGameSpeed = currentGameSpeed;
         currentTime = startTime;
         gameState = GameState.InGame;
-        StartGame();
-        PopupUiManager.togglePopup?.Invoke(true, $"Help doki take care of her shop during her small break \n Q - Open potion tab \n W - Open Potion Guide \n E - Open Ingredient tab \n mix and match ingredient in the MAGICAL WASHING MACHINE to make a potion \n Once you have a potion drag it from the tab and give it to Dragoon to complete an order !");
+        SetTimerTextWhenGameStart();
+        PopupUiManager.togglePopup?.Invoke(true, $"Help doki take care of her shop during her small break" +
+            $"\n Q - Open potion tab " +
+            $"\n W - Open Potion Guide " +
+            $"\n E - Open Ingredient tab " +
+            $"\n Space - Show / Hide your cursor" +
+            $"\n mix and match ingredient in the MAGICAL WASHING MACHINE to make a potion " +
+            $"\n Once you have a potion drag it from the tab and give it to Dragoon to complete an order !");
+    }
+
+    private void OnEnable()
+    {
+        popupButton.onClick.AddListener(ChangeGameStateOnPopupClose);
+    }
+
+    private void OnDisable()
+    {
+        popupButton.onClick.RemoveListener(ChangeGameStateOnPopupClose);
     }
 
     void Update()
@@ -61,6 +83,15 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         gameState = GameState.StartGame;
+        
+    }
+
+    private void SetTimerTextWhenGameStart()
+    {
+        int minutes = Mathf.FloorToInt(currentTime / 60);
+        int seconds = Mathf.FloorToInt(currentTime % 60);
+
+        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
     private void TimerCountdown()
@@ -93,6 +124,19 @@ public class GameManager : MonoBehaviour
     public void OnDragoonOrderComplete()
     {
         totalDragoonOrderComplete++;
+    }
+
+    private void ChangeGameStateOnPopupClose()
+    {
+        if (GameManager.instance.gameState == GameManager.GameState.InGame)
+        {
+            GameManager.instance.StartGame();
+        }
+
+        if (GameManager.instance.gameState == GameManager.GameState.EndGame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     public void TogglePauseGame(bool toggle)

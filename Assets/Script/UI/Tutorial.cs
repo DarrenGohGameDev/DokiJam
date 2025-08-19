@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class Tutorial : MonoBehaviour
     [SerializeField] float fadeAnimationSpeed = 1;
 
     private TutorialState currentTutorialState = TutorialState.Hide;
+
+    [SerializeField] private Button howToPlayButton;
 
     private enum TutorialState
     {
@@ -17,6 +20,15 @@ public class Tutorial : MonoBehaviour
     private void Awake()
     {
         ResetTutorialUi();
+    }
+    private void OnEnable()
+    {
+        howToPlayButton.onClick.AddListener(ToggleHowToPlayTab);
+    }
+
+    private void OnDisable()
+    {
+        howToPlayButton.onClick.RemoveListener(ToggleHowToPlayTab);
     }
 
     // Update is called once per frame
@@ -33,6 +45,17 @@ public class Tutorial : MonoBehaviour
             TutorialFadeAnimation();
            
         }
+    }
+
+    private void ToggleHowToPlayTab()
+    {
+        PopupUiManager.togglePopup?.Invoke(true,
+            $"\n Q - Open potion tab " +
+            $"\n W - Open Potion Guide " +
+            $"\n E - Open Ingredient tab " +
+            $"\n Space - Show / Hide your cursor" +
+            $"\n mix and match ingredient in the MAGICAL WASHING MACHINE to make a potion " +
+            $"\n Once you have a potion drag it from the tab and give it to Dragoon to complete an order !");
     }
 
     public void ToggleTutorial()
