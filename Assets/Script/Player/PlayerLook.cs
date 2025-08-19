@@ -17,6 +17,7 @@ public class PlayerLook : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = false;
+        PlayerManager.instance.playerInventoryIsOpen += PlayerIsLookingAtInventory;
     }
 
     // Update is called once per frame
@@ -42,7 +43,6 @@ public class PlayerLook : MonoBehaviour
     private void OnEnable()
     {
         enablePlayerMouseLook += SetPlayerMouseLook;
-        PlayerManager.instance.playerInventoryIsOpen += PlayerIsLookingAtInventory;
     }
 
     private void OnDisable()
@@ -53,8 +53,16 @@ public class PlayerLook : MonoBehaviour
 
     public void SetPlayerMouseLook(bool set)
     {
-        mouseLooking = set;
-        Cursor.visible = !set;
+        if(playerInventoryIsOpen)
+        {
+            mouseLooking = false;
+            Cursor.visible = true;
+        }
+        else
+        {
+            mouseLooking = set;
+            Cursor.visible = !set;
+        } 
     }
 
     private void PlayerIsLookingAtInventory(bool value)
